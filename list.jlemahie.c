@@ -29,3 +29,23 @@ int insertItem(ListNode **theList, void *data, ComparisonFunction compare){
     }
     return 0;
 }
+
+void *findItem(ListNode *theList, void *item, ComparisonFunction compare){
+    //if list is empty return null
+    if (theList == NULL){
+        return NULL;
+    }
+
+    //setting current as the first node in list
+    ListNode *current = theList;
+
+    //looping through the list and comparing
+    while (current->next != NULL){
+        if(compare(item, current) == 0){ //do we compare the nodes or the specific data.... what is item????
+            return current->data;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+

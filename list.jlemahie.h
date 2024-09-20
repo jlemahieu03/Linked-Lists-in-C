@@ -20,6 +20,7 @@ typedef void (* PrintFunction)(void *);
 
 int insertItem(ListNode **theList, void *data, ComparisonFunction compare);
 
+void * findItem(ListNode *theList, void *item, ComparisonFunction compare);
 
 #endif //LINKED_LISTS_IN_C_LIST_JLEMAHIE_H
 
