@@ -7,4 +7,7 @@ include_directories(.)
 
 add_executable(main
         list.jlemahie.h
-        main.c)
+        main.c
+        movie.jlemahie.h
+        movie.jlemahie.c
+        list.jlemahie.c)
