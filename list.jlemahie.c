@@ -17,7 +17,7 @@ int insertItem(ListNode **theList, void *data, ComparisonFunction compare){
         ListNode *current =  *theList;
 
         //looping through the list to find where the next item is greater than our current data
-        while(compare(data, current->next->data) < 0){
+        while(current->next != NULL && compare(data, current->next->data) > 0 ){
             current = current->next;
         }
 
@@ -40,12 +40,46 @@ void *findItem(ListNode *theList, void *item, ComparisonFunction compare){
     ListNode *current = theList;
 
     //looping through the list and comparing
-    while (current->next != NULL){
-        if(compare(item, current) == 0){ //do we compare the nodes or the specific data.... what is item????
+    while (current != NULL){
+        if(compare(item, current) == 0){
             return current->data;
         }
         current = current->next;
     }
     return NULL;
+}
+
+void *removeItem(ListNode **theList, void *item, ComparisonFunction compare){
+    //making sure list isn't null
+    if(theList ==  NULL){
+        return NULL;
+    }
+
+    //checking first node
+    ListNode *current = theList;
+    if(compare(current,item) == 0){
+         //freeing the next pointer but returning the pointer to the data.
+         free(current->next);
+         return current->data;
+    }
+
+    //checking the rest of the list
+    while (current->next != NULL){
+        if(compare(current->next, item) == 0){
+            //making temporary pointer to node we want to remove
+            ListNode *rmvNode = current->next;
+            //setting current next pointer to the node we are reomving next
+            current->next = rmvNode->next;
+            //freeing the space of the nodes next pointer
+            free(rmvNode->next);
+            //returning the data
+            return rmvNode->data;
+        }
+        //next node
+        current = current->next;
+    }
+    //returning NULL is value isn't in list.
+    return NULL;
+
 }
 
