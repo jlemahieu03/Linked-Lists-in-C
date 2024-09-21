@@ -81,6 +81,7 @@ void *removeItem(ListNode **theList, void *item, ComparisonFunction compare){
     //returning NULL is value isn't in list.
     return NULL;
 }
+
 void *removeNthItem(ListNode **theList, int pos){
     //checking is list is null
     if(theList == NULL){
@@ -107,4 +108,43 @@ void *removeNthItem(ListNode **theList, int pos){
 
     return NULL;
 }
+
+void *findNthItem(ListNode **theList, int pos){
+    //checking is list is null
+    if(theList == NULL){
+        return NULL;
+    }
+
+    //setting current
+    ListNode *current = *theList;
+
+    //setting counter variable
+    int count = 1;
+
+    //finding and returning item in list.
+    while(current->next != NULL){
+        if (count == pos){
+            return current->data;
+        }
+        count++;
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+int printList(ListNode *theList, PrintFunction print){
+    if(theList == NULL){
+        return 0;
+    }
+    ListNode *current = theList;
+    while(current->next != NULL){
+        print(current->data);
+        current = current->next;
+    }
+    //printing last item in list
+    print(current->data);
+    return 0;
+}
+
 

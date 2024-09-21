@@ -24,5 +24,10 @@ void * findItem(ListNode *theList, void *item, ComparisonFunction compare);
 
 void *removeItem(ListNode **theList, void *item, ComparisonFunction compare);
 
+void *removeNthItem(ListNode **theList, int pos);
+
+void *findNthItem(ListNode **theList, int pos);
+
+int printList(ListNode *theList, PrintFunction print);
 #endif //LINKED_LISTS_IN_C_LIST_JLEMAHIE_H
 
