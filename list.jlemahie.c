@@ -56,7 +56,7 @@ void *removeItem(ListNode **theList, void *item, ComparisonFunction compare){
     }
 
     //checking first node
-    ListNode *current = theList;
+    ListNode *current = *theList;
     if(compare(current,item) == 0){
          //freeing the next pointer but returning the pointer to the data.
          free(current->next);
@@ -80,6 +80,31 @@ void *removeItem(ListNode **theList, void *item, ComparisonFunction compare){
     }
     //returning NULL is value isn't in list.
     return NULL;
+}
+void *removeNthItem(ListNode **theList, int pos){
+    //checking is list is null
+    if(theList == NULL){
+        return NULL;
+    }
 
+    //setting current
+    ListNode *current = *theList;
+
+    //setting counter variable
+    int count = 1;
+
+    //removing item in list.
+    while(current->next != NULL){
+        if (count == pos - 1){
+            ListNode *rmvNode = current->next;
+            current->next =  rmvNode->next;
+            free(rmvNode->next);
+            return rmvNode->data;
+        }
+        count++;
+        current = current->next;
+    }
+
+    return NULL;
 }
 
