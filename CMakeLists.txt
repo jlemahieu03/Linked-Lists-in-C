@@ -11,3 +11,11 @@ add_executable(main
         movie.jlemahie.h
         movie.jlemahie.c
         list.jlemahie.c)
+
+add_executable(test
+        list.jlemahie.h
+        movie.jlemahie.h
+        movie.jlemahie.c
+        list.jlemahie.c
+        list-unit-tests.c)
+

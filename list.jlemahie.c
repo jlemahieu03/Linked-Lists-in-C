@@ -5,14 +5,21 @@
 
 int insertItem(ListNode **theList, void *data, ComparisonFunction compare){
     //checking if list is null because that is the easiest case of insertion
-    if (theList == NULL){
+    if (*theList == NULL){
         //allocating the size of the node to the list
         *theList = malloc(sizeof(ListNode));
 
         //assigning data to new node and then setting next to null
         (*theList)->data = data;
         (*theList)->next = NULL;
-    } else {
+    } else if(compare(data, (*theList)->data) < 0) {
+        ListNode *newNode = malloc(sizeof(ListNode));
+        newNode->data = data;
+        newNode->next = *theList;
+        *theList = newNode;
+    }
+
+    else{
         //creating a current list node
         ListNode *current =  *theList;
 
@@ -41,7 +48,7 @@ void *findItem(ListNode *theList, void *item, ComparisonFunction compare){
 
     //looping through the list and comparing
     while (current != NULL){
-        if(compare(item, current) == 0){
+        if(compare(item, current->data) == 0){
             return current->data;
         }
         current = current->next;
@@ -51,40 +58,47 @@ void *findItem(ListNode *theList, void *item, ComparisonFunction compare){
 
 void *removeItem(ListNode **theList, void *item, ComparisonFunction compare){
     //making sure list isn't null
-    if(theList ==  NULL){
+    if(*theList ==  NULL){
         return NULL;
     }
 
-    //checking first node
     ListNode *current = *theList;
-    if(compare(current,item) == 0){
+
+    //removing from head of the list
+    if(compare(current->data, item) == 0){
          //freeing the next pointer but returning the pointer to the data.
-         free(current->next);
-         return current->data;
+         ListNode *rmvNode = current;
+         *theList = current->next;
+         void *data = rmvNode->data;
+         free(rmvNode);
+         return data;
     }
 
     //checking the rest of the list
     while (current->next != NULL){
-        if(compare(current->next, item) == 0){
+        if(compare(current->next->data, item) == 0){
             //making temporary pointer to node we want to remove
             ListNode *rmvNode = current->next;
             //setting current next pointer to the node we are reomving next
             current->next = rmvNode->next;
             //freeing the space of the nodes next pointer
-            free(rmvNode->next);
+            void *data = rmvNode->data;
+            free(rmvNode);
             //returning the data
-            return rmvNode->data;
+            return data;
         }
         //next node
         current = current->next;
     }
+
+
     //returning NULL is value isn't in list.
     return NULL;
 }
 
 void *removeNthItem(ListNode **theList, int pos){
     //checking is list is null
-    if(theList == NULL){
+    if(*theList == NULL){
         return NULL;
     }
 
@@ -99,8 +113,9 @@ void *removeNthItem(ListNode **theList, int pos){
         if (count == pos - 1){
             ListNode *rmvNode = current->next;
             current->next =  rmvNode->next;
-            free(rmvNode->next);
-            return rmvNode->data;
+            void *data = rmvNode->data;
+            free(rmvNode);
+            return data;
         }
         count++;
         current = current->next;
@@ -111,7 +126,7 @@ void *removeNthItem(ListNode **theList, int pos){
 
 void *findNthItem(ListNode **theList, int pos){
     //checking is list is null
-    if(theList == NULL){
+    if(*theList == NULL){
         return NULL;
     }
 
@@ -138,6 +153,12 @@ int printList(ListNode *theList, PrintFunction print){
         return 0;
     }
     ListNode *current = theList;
+
+    //single node list
+    if(current->next == NULL){
+        print(current->data);
+    }
+
     while(current->next != NULL){
         print(current->data);
         current = current->next;
